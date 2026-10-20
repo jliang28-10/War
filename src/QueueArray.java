@@ -42,7 +42,10 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
             tail = 0;
         }
 
+
         size++;
+        if(size==items.length)
+            resize(items.length*2);
     }
 
     public Item dequeue() {
@@ -56,6 +59,9 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
             if (head == items.length) {
                 head = 0;
             }
+            if(size<(items.length/4)){
+                resize(items.length/2);
+            }
 
 
             return itemToReturn;
@@ -63,6 +69,14 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
     }
 
     private void resize(int capacity) {
+        Item[] resize = (Item[]) (new Object[capacity]);
+        for(int i=0; i<size;i++){
+            resize[i]=items[(head+i)%items.length];
+        }
+        items=resize;
+        head=0;
+        tail=size;
+
         //TODO : Implement the resize method and use it in the correct spots in QueueArray
     }
 
@@ -89,7 +103,7 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
              */
             public boolean hasNext() {
                 //TODO Implement the hasNext() method
-                return true;
+                return items[pos]!=null;
             }
 
             /**
@@ -101,7 +115,8 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
              */
             public Item next() {
                 //TODO Implement the next() method
-                Item item = items[0];
+                Item item = items[pos];
+                pos++;
                 return item;
 
             }

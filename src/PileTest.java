@@ -43,9 +43,10 @@ public class PileTest {
 
         Pile longPile = new Pile("2c 3c 4c 5c 6c 7c 8c 9c Tc Jc Qc");
         String expectedFormatting = "2c  3c  4c  5c  6c  7c  8c  9c  Tc  Jc  "
-                + System.lineSeparator() + "Qc  ";
+                + "\n" + "Qc  ";
         check("toString starts a new line after the 10th card",
                 longPile.toString().equals(expectedFormatting));
+
 
         Pile iteratorPile = new Pile("4h 5d 6s 7c");
         Iterator<Card> iterator = iteratorPile.iterator();
@@ -65,5 +66,7 @@ public class PileTest {
         check("shuffle preserves card count", shufflePile.size() == 6);
         check("riffle shuffle interleaves the two halves exactly",
                 cards(shufflePile).equals(Arrays.asList("2c", "5c", "3c", "6c", "4c", "7c")));
+        System.out.println(shufflePile);
     }
+
 }

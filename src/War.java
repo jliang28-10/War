@@ -57,6 +57,23 @@ public class War {
 
         numTurns = 1;
 
+        while(numTurns<5000&&!pile1.isEmpty()&&!pile2.isEmpty()){
+            Card c1 = pile1.dequeue();
+            Card c2 = pile2.dequeue();
+            if(c1.compareTo(c2)>0){
+                pile1.enqueue(c1);
+                pile1.enqueue(c2);
+            }
+            if(c2.compareTo(c1)>0){
+                pile2.enqueue(c1);
+                pile2.enqueue(c2);
+            }
+            else{
+                printWar();
+
+            }
+
+        }
         // TODO: ADD CODE HERE TO COMPLETE THIS METHOD...
 
     }

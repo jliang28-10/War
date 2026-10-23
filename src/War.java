@@ -8,6 +8,7 @@ public class War {
 
     static Pile pile1;
     static Pile pile2;
+    static Pile misc= new Pile("");
     static int numTurns;
 
     // ADD ADDITIONAL VARIABLES HERE, IF DESIRED...
@@ -56,22 +57,75 @@ public class War {
         }
 
         numTurns = 1;
-
+        outer:
         while(numTurns<5000&&!pile1.isEmpty()&&!pile2.isEmpty()){
             Card c1 = pile1.dequeue();
             Card c2 = pile2.dequeue();
             if(c1.compareTo(c2)>0){
                 pile1.enqueue(c1);
                 pile1.enqueue(c2);
+                numTurns++;
+
             }
             if(c2.compareTo(c1)>0){
                 pile2.enqueue(c1);
                 pile2.enqueue(c2);
+                numTurns++;
             }
             else{
                 printWar();
+                boolean won = false;
+                while(!won){
+                    misc.enqueue(c1);misc.enqueue(c2);
+                    for(int i=0; i<3; i++){
+                        misc.enqueue(pile1.dequeue());
+                        if(pile1.isEmpty()){
+                            System.out.println("player 2 wins!");
+                            break outer;
+                        }
+                        misc.enqueue(pile2.dequeue());
+                        if(pile2.isEmpty()){
+                            System.out.println("player 2 wins!");
+                            break outer;
+                        }
+                    }
+                     c1 = pile1.dequeue();
+                    if(pile1.isEmpty()){
+                        System.out.println("player 2 wins!");
+                        break outer;
+                    }
+                     c2 = pile2.dequeue();
+                    if(pile2.isEmpty()){
+                        System.out.println("player 2 wins!");
+                        break outer;
+                    }
+                    if(c1.compareTo(c2)>0){
+                        while(!misc.isEmpty())
+                            pile1.enqueue(misc.dequeue());
+                        won=true;
+                    }
+                    if(c2.compareTo(c1)>0){
+                        while(!misc.isEmpty())
+                            pile2.enqueue(misc.dequeue());
+                        won=true;
+                    }
 
+                }
+                numTurns++;
             }
+
+
+            printPiles();
+        }
+        if(numTurns==5000){
+            System.out.println("draw!");
+        }
+        if(pile2.isEmpty()){
+            System.out.println("player 2 wins!");
+
+        }
+        if(pile1.isEmpty()){
+            System.out.println("player 2 wins!");
 
         }
         // TODO: ADD CODE HERE TO COMPLETE THIS METHOD...
